@@ -1,0 +1,29 @@
+.contenedor{
+    margin: 0 auto;
+    width: 50%;
+    height: 600px;
+}
+
+#arriba{
+    background:#DC0330;
+    height:100px;
+}
+
+#cuerpa{
+    height:400px;
+}
+
+#contenidoInterno{
+    width:90%;
+    margin:0 auto;
+}
+
+#arriba a img{
+    position:relative;
+    margin:10px 40px;
+}
+
+#abajo{
+    background:#EDECEC;
+    height:80px;
+}

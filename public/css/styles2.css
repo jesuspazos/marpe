@@ -1,0 +1,51 @@
+
+.contenedor{
+	width: 80%;
+	margin: auto;
+	/*border: 1px solid;*/
+}
+
+.navbar{
+	background: red !important;
+}
+
+.navbar ul li{
+	margin-left:80px;
+	margin-top:20px;
+}
+
+#item{
+	margin-top:40px;
+}
+
+.navbar ul li a{
+	color:white;
+}
+
+
+.navbar-brand{
+		display: none;
+}
+
+
+@media (max-width: 768px){
+
+	.contenedor{
+		width: 100%;
+	}
+
+	#logo{
+		display: none;
+	}
+
+	#item2 img{
+		display: none;
+	}
+	.navbar-brand{
+		display: inline;
+	}
+
+	.navbar ul li{
+		margin-left:0;
+	}
+}
