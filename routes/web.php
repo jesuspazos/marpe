@@ -14,9 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
+//---------Vista publico-----------------
+
+Route::get('/', 'Direccionador@index');
+Route::get('catalogo_mar','Direccionador@catalogo');
+Route::get('nosotros/{section?}', 'Direccionador@nosotros');
+Route::get('contacto', 'Direccionador@contacto');
+Route::get('registro', 'Direccionador@registro');
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -27,7 +34,5 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::get('/', 'Direccionador@index');
 
 require __DIR__.'/auth.php';

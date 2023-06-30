@@ -1,4 +1,4 @@
-@extends('base.base_marpemx')
+@extends('base.base')
 
 
 @section('content')

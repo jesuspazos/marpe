@@ -6,71 +6,10 @@ use Illuminate\Http\Request;
 use App\Configuraciones;
 use App\Productos;
 use App\Categoria;
-use App\Subcategoria;
+
 class Direccionador extends Controller
 {
     
-    public function __construct(){                
-        
-        $DatosInicio = Configuraciones::where('cClave','fbInput')
-                                        ->orWhere('cClave','twInput')
-                                        ->orWhere('cClave','igInput')
-                                        ->orWhere('cClave','ytInput')
-                                        ->orWhere('cClave','CorreoInfo')
-                                        ->orWhere('cClave','TelefonoInfo')
-                                        ->orWhere('cClave','DireccionInfo')
-                                        ->orWhere('cClave','WebInfo')
-                                        ->orWhere('cClave','HorariosSemana')
-                                        ->orWhere('cClave','diasSemana')
-                                        ->orWhere('cClave','diasFin')
-                                        ->orWhere('cClave','HorariosFinSemana')
-                                        ->get()->toArray();        
-        $DiasSemana = [
-            1 => 'Lunes',
-            2 => 'Martes',
-            3 => 'Miercoles',
-            4 => 'Jueves',
-            5 => 'Viernes',
-            6 => 'Sabado',
-            7 => 'Domingo',
-        ];                
-
-        if(!empty($DatosInicio)){
-
-            $Matriz = ['fbInput', 'twInput', 'igInput', 'ytInput', 'CorreoInfo','TelefonoInfo','DireccionInfo','WebInfo','HorariosSemana','diasSemana','diasFin','HorariosFinSemana'];        
-            
-            foreach ($DatosInicio as $key => $Valor) {                       
-                if(in_array($Valor['cClave'], $Matriz)){                
-                    if($Valor['cValor'] != null){                                                      
-                        $this->Arreglo[$Valor['cClave']] = $Valor['cValor'];
-                    }
-                    else{                     
-                        unset($this->Arreglo[$Valor['cClave']]);                                    
-                    }                                                             
-                } 
-            } 
-
-
-            $Semana = explode(',', $this->Arreglo['diasSemana']); 
-            $ContadorSemana = count($Semana);
-            $Inicio = $Semana[0];
-            $Fin = $Semana[$ContadorSemana-1];
-            $this->Arreglo['DiasSemana'] = $DiasSemana[$Inicio]." - ".$DiasSemana[$Fin];
-
-            if(isset($this->Arreglo['diasFin']) && $this->Arreglo['diasFin'] != ''){
-                $Semana = explode(',', $this->Arreglo['diasFin']); 
-                $ContadorSemana = count($Semana);
-                $Inicio = $Semana[0];
-                $Fin = $Semana[$ContadorSemana-1];
-                $this->Arreglo['diasFin'] = $DiasSemana[$Inicio]." - ".$DiasSemana[$Fin];  
-            }
-        }            
-    }
-    //
-    // public function index()
-    // {
-    //     return view('welcome');
-    // }
     public function index(){
         
 
@@ -108,13 +47,171 @@ class Direccionador extends Controller
         }
         
         $Contenido['section'] = 'Inicio';
-
-        // dd($this->Arreglo);
-         // dd($Contenido);
-        
+                
         // return view('inicio')->with('Contenido',$Contenido)->with('RRSS',$this->Arreglo)->with('Marcas',$DatosMarcas);
-        return view('cuerpo.home')->with('Contenido',$Contenido)->with('RRSS',$this->Arreglo)->with('Marcas',$DatosMarcas);
+        return view('cuerpo.home')->with('Contenido',$Contenido)->with('Marcas',$DatosMarcas); //->with('RRSS',$this->Arreglo)
     }
 
+    public function nosotros(){
+        
+        //$DatosInicio = ContenidoPagina::where('menu','Nosotros')->get()->toArray();
+
+        $DataImg = Configuraciones::where('cClave','imagenNosotros')->get()->toArray();
+        
+        $Contenido['UrlImagen'] = (!empty($DataImg)) ? $DataImg[0]['cValor'] :'';        
+
+        $DataTitulo = Configuraciones::where('cClave','tituloNosotros')->get()->toArray();
+        //dd($DataTitulo);
+        if(!empty($DataTitulo)){
+            $Contenido['TituloNosotros']    = $DataTitulo[0]['cValor'];
+            $Contenido['HistoriaNosotros']  = $DataTitulo[0]['cDescripcion'];
+        }
+
+        $DataTitulo = Configuraciones::where('cClave','infoMision')->get()->toArray();
+
+        if(!empty($DataTitulo)){
+            $Contenido['TituloMision']    = $DataTitulo[0]['cValor'];
+            $Contenido['Mision']            = $DataTitulo[0]['cDescripcion'];
+        }
+
+        $DataTitulo = Configuraciones::where('cClave','infoVision')->get()->toArray();
+
+        if(!empty($DataTitulo)){
+            $Contenido['TituloVision']    = $DataTitulo[0]['cValor'];
+            $Contenido['Vision']            = $DataTitulo[0]['cDescripcion'];
+        }
+
+        $DataTitulo = Configuraciones::where('cClave','infoValores')->get()->toArray();
+
+        if(!empty($DataTitulo)){
+            $Contenido['TituloValores']    = $DataTitulo[0]['cValor'];
+            $Contenido['Valores']            = $DataTitulo[0]['cDescripcion'];
+        }
+
+        $Contenido['section'] = 'Nosotros';
+
+        
+        // return view('nosotros_marpe')->with('Contenido',$Contenido)->with('RRSS',$this->Arreglo);
+        return view('cuerpo.nosotros_mar')->with('Contenido',$Contenido);
+    }
+
+    public function contacto(){
+        
+
+        $Contenido = array();
+        $DatosInicio = Configuraciones::get()->toArray();
+
+        foreach ($DatosInicio as $Index => $Valor) {
+
+            if($Valor['cClave'] == 'DireccionInfo'){
+                $Contenido['DireccionInfo'] = $Valor['cValor'];                
+            }
+            if($Valor['cClave'] == 'TelefonoInfo'){
+                $Contenido['TelefonoInfo'] = $Valor['cValor'];
+            }            
+
+            if($Valor['cClave'] == 'CorreoInfo'){
+                $Contenido['CorreoInfo'] = $Valor['cValor'];
+            }  
+            if($Valor['cClave'] == 'WebInfo'){
+                $Contenido['WebInfo'] = $Valor['cValor'];
+            }  
+
+            if($Valor['cClave'] == 'CorreoMail'){
+                $Contenido['CorreoMail'] = $Valor['cValor'];
+            } 
+        }
+                                                
+        $Contenido['section'] = 'Contacto';        
+        return view('cuerpo.contacto_marpe')->with('Contenido',$Contenido);
+    }
+
+    public function catalogo(){
+
+        
+        $Contenido['section'] = 'Productos';
+        //$QueryCategoria->select('producto.idProducto','producto.nombre as nombreProd','producto.descripcion','producto.categoria','categoria.nombre as nombreCate');
+        //$QueryCategoria->leftJoin("categoria","categoria.idCategoria","=","producto.categoria");
+        
+
+        //Obtengo todas las categorias
+        $DataCategorias = Categoria::
+                        // select('categoria.idCategoria','categoria.nombre as nombreCate','subcategorias.idsubcategoria as Subcate')//,'subcategorias.cNombre as nombreSubcategoria')
+                        // selectRaw('categoria.idCategoria','categoria.nombre as nombreCate','(select subcategorias.idsubcategoria as Subcate')
+                        selectRaw("categoria.idCategoria as FolioCate, categoria.nombre as NombreCat")
+                        ->selectRaw("(
+                                        select group_concat(sub.idsubcategoria separator ', ') as FolioSub from subcategorias sub where sub.idcategoria = categoria.idCategoria 
+                                    ) as FoliosSub ")
+                        ->where('categoria.activo',1)
+                        ->get()
+                        ->toArray();
+
+                        
+                        // ->join("subcategorias","categoria.idCategoria","=","subcategorias.idcategoria")                                                  
+
+        // dd($DataCategorias);
+
+        //Comentando Codigo que me llevo tiempo hace jajajaj
+
+        // //Recorro para obtener si la categoria tiene subcategorias
+        // foreach($DataCategorias as $indice => $balor){            
+        //     $DataCategorias[$indice]['subcategorias'] = Subcategoria::where('idcategoria', intval($balor['idCategoria']))->get()->toArray();           
+        // }                        
+        // dd($DataCategorias);
+        // $DataProductos = array();
+        // //dd(Productos::get()->toArray());
+
+        // //Recorro las categorias y si tienen subcategorias
+        // foreach ($DataCategorias as $index => $Valor) {
+            
+        //     $tempProductos = Productos::select('producto.idProducto','producto.nombre as nombreProd','producto.descripcion','producto.categoria','producto.subcategoria')
+        //                      ->where('categoria', $Valor['idCategoria'])
+        //                      //->where('subcategoria',0)
+        //                      ->get()
+        //                      ->toArray();
+        //     //dd($tempProductos);
+        //     if(!empty($tempProductos)){
+        //         $DataProductos[$index] = $tempProductos;
+        //         $DataCategorias[$index]['categoria_productos'] = $tempProductos;
+        //     }    
+
+        //     $productosSubcategoriaTemporal = [];
+        //     if(!empty($Valor['subcategorias'])){
+        //         foreach($Valor['subcategorias'] as $indices => $contenido){
+        //             $ProductosSubcategoria = Productos::select('producto.idProducto','producto.nombre as nombreProd','producto.descripcion','producto.subcategoria')
+        //                      ->where('subcategoria', $contenido['idsubcategoria'])
+        //                      ->get()
+        //                      ->toArray();
+                    
+        //             if(!empty($ProductosSubcategoria)){
+        //                 $productosSubcategoriaTemporal[] = $ProductosSubcategoria;
+        //             }
+        //             //$ProductoSub                             
+        //         }
+        //         $DataCategorias[$index]['subcategorias_productos'] = $productosSubcategoriaTemporal;
+        //     } 
+        //     /*$tempProd = Productos::select('producto.idProducto','producto.nombre as nombreProd','producto.descripcion','producto.categoria')
+        //                      ->where('subcategoria', $Valor['subcategoria'])
+        //                      ->get()
+        //                      ->toArray();  */
+
+                  
+        // }
+        
+        //Termina Codigo comentado
+
+        //dd($DataProductos);
+        //dd($DataCategorias);
+
+        /*echo "<pre>";
+        print_r($DataProductos);
+        echo "</pre>";*/
+        //exit();
+        // return view('productos_marpe')
+        return view('cuerpo.productos_mar')
+                ->with('Contenido',$Contenido)
+                ->with('Categorias',$DataCategorias);
+                // ->with('Productos',$DataProductos)                
+    }
 
 }
