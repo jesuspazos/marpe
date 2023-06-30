@@ -23,6 +23,22 @@ Route::get('nosotros/{section?}', 'Direccionador@nosotros');
 Route::get('contacto', 'Direccionador@contacto');
 Route::get('registro', 'Direccionador@registro');
 
+Route::get('/tree', function () {
+    return view('cuerpo.test');
+});
+
+
+//---------Rutas Panel control-----------------
+Route::get('menuinicio', 'ControladorHome@menu_inicio');
+Route::post('GuardarInformacion', 'ControladorHome@guardarInformacion');
+Route::post('guardarContacto','ControladorHome@GuardaInformacionContacto');
+Route::get('categoria','ControladorHome@Categoria');
+Route::get('Archivos', 'ControladorHome@Archivos');
+Route::post('GuardarArchivo', 'ControladorHome@SaveArchivo');
+Route::get('altaProducto','ControladorHome@VistaProductos');
+Route::post('productoSave','ControladorHome@productoSave');
+
+
 
 
 Route::get('/dashboard', function () {

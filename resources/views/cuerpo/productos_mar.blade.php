@@ -1,18 +1,17 @@
-<!-- @extends('base.base_marpemx') -->
-
+@extends('base.base') 
 
 @section('css')
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
+ <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 
 @endsection
 
-@section('content')
 
+@section('content') 
 
-      <section class="section section-sm section-first bg-default text-left">
-        <div class="container">
+  <section class="section section-sm section-first bg-default text-left">
+    <div class="container">
           <div class="filter"> 
                 <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#mobile-filter" aria-expanded="true" aria-controls="mobile-filter">Filtros<span class="fa fa-filter pl-1"></span>
                 </button>
@@ -43,6 +42,7 @@
                     </div>                                        
                     <ul class="left_nav"> 
                       <div id="tree"></div> 
+
                         <!-- @foreach($Categorias as $Indice => $valor)                                                        
                           <li class="nav-item active">                              
                             <div class="form-group dropright">
@@ -144,65 +144,50 @@
         </div>
       </section>  
 
-      
-            
+
+
 
 @endsection
 
+
+
 @section('script')
-    <!-- Required Javascript -->
-    <!-- <script src="jquery.js"></script> --> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>   
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    -->
     <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
     <script>
         
         $(document).ready(function(){
-          // $('.dropdown-submenu a.test').on("click", function(e){
-          //   $(this).next('ul').toggle();
-          //   e.stopPropagation();
-          //   e.preventDefault();
-          // });
-
           $('#tree').tree({
-                    uiLibrary: 'bootstrap4',
-                    dataSource: getTree(),
-                    // primaryKey: 'id',
-                    // imageUrlField: 'flagUrl'
+            uiLibrary: 'bootstrap4',
+            dataSource: getTree(), 
+            imageUrlField: 'flagUrl'                   
           });
+
+          // $('head').find('link#stilo').remove();
+
         });
 
-
-
-        function getTree() {
-          // Some logic to retrieve, or generate tree structure
-                var tree = [ 
-    { 
-      text: 'Planta 1', 
-      children: [ 
-        { text: 'Área 1', 
-         children: [
-           { text: 'Equipo 1',
-             children: [
-               { text: 'Punto 1' },
-               { text: 'Punto 2' },
-               { text: 'Punto 3' }
-             ]
-           }
-         ] 
-        } 
-      ] 
-    }
-  ]
-
+        function getTree() {          
+          var tree = [{ 
+                      text: 'Planta 1', 
+                      children: [ 
+                          { 
+                            text: 'Área 1', 
+                              children: [
+                                { 
+                                  text: 'Equipo 1',
+                                    children: [
+                                      { text: 'Punto 1' },
+                                      { text: 'Punto 2' },
+                                      { text: 'Punto 3' }
+                                  ]
+                                }
+                              ] 
+                          } 
+                        ] 
+                    }];
+          
           return tree;
-        }
-    
-            $(document).ready(function () {
-                
-            });
-    
-    
+        }                  
     </script>
-@endsection
-
-
+  @endsection
