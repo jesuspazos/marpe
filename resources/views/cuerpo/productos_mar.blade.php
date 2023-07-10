@@ -13,7 +13,7 @@
   <section class="section section-sm section-first bg-default text-left">
     <div class="container">
           <div class="filter"> 
-                <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#mobile-filter" aria-expanded="true" aria-controls="mobile-filter">Filtros<span class="fa fa-filter pl-1"></span>
+                <button class="btn btn-default mb-2" type="button" data-toggle="collapse" data-target="#mobile-filter" aria-expanded="true" aria-controls="mobile-filter">Filtros<span class="fa fa-filter pl-1"></span>
                 </button>
           </div>
           <div id="mobile-filter" class="collapse">
@@ -41,7 +41,7 @@
                       <span class="fa fa-minus"></span>
                     </div>                                        
                     <ul class="left_nav"> 
-                      <div id="tree"></div> 
+                      <!-- <div id="tree"></div>  -->
 
                         <!-- @foreach($Categorias as $Indice => $valor)                                                        
                           <li class="nav-item active">                              
@@ -161,10 +161,7 @@
             uiLibrary: 'bootstrap4',
             dataSource: getTree(), 
             imageUrlField: 'flagUrl'                   
-          });
-
-          // $('head').find('link#stilo').remove();
-
+          });          
         });
 
         function getTree() {          

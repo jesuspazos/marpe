@@ -1239,10 +1239,13 @@ $(".success-alert").fadeTo(2000, 500).slideUp(500, function(){
     $('#marca_marpe').on('click',function(){
 
         if($(this).is(':checked')){
-            $('#Prodcategoria').prop('disabled', true);    
+            $('#Prodcategoria').prop('disabled', true);
+            $('#Prodsubcategoria').prop('disabled', true);
+            
         }
         else{
             $('#Prodcategoria').prop('disabled', false);
+            $('#Prodsubcategoria').prop('disabled', false);
         }
     });
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Mail\TemplateContacto;
 use App\Configuraciones;
 use App\Productos;
 use App\Categoria;
@@ -14,6 +15,8 @@ class Direccionador extends Controller
         
 
         $Contenido = array();
+
+        \Session::put('menu','home');
         $DatosInicio = Configuraciones::get()->toArray();
 
         $DatosMarcas = Productos::where('categoria', '=',0)->get()->toArray();
@@ -47,7 +50,7 @@ class Direccionador extends Controller
         }
         
         $Contenido['section'] = 'Inicio';
-                
+        // dd($DatosMarcas);
         // return view('inicio')->with('Contenido',$Contenido)->with('RRSS',$this->Arreglo)->with('Marcas',$DatosMarcas);
         return view('cuerpo.home')->with('Contenido',$Contenido)->with('Marcas',$DatosMarcas); //->with('RRSS',$this->Arreglo)
     }
@@ -57,7 +60,7 @@ class Direccionador extends Controller
         //$DatosInicio = ContenidoPagina::where('menu','Nosotros')->get()->toArray();
 
         $DataImg = Configuraciones::where('cClave','imagenNosotros')->get()->toArray();
-        
+        \Session::put('menu','nosotros');
         $Contenido['UrlImagen'] = (!empty($DataImg)) ? $DataImg[0]['cValor'] :'';        
 
         $DataTitulo = Configuraciones::where('cClave','tituloNosotros')->get()->toArray();
@@ -100,6 +103,7 @@ class Direccionador extends Controller
 
         $Contenido = array();
         $DatosInicio = Configuraciones::get()->toArray();
+        \Session::put('menu','contacto');
 
         foreach ($DatosInicio as $Index => $Valor) {
 
@@ -121,14 +125,15 @@ class Direccionador extends Controller
                 $Contenido['CorreoMail'] = $Valor['cValor'];
             } 
         }
-                                                
+        
+        // dd(env('KEYCAPTCHA_PUBLIC'));                                      
         $Contenido['section'] = 'Contacto';        
         return view('cuerpo.contacto_marpe')->with('Contenido',$Contenido);
     }
 
     public function catalogo(){
 
-        
+        \Session::put('menu','productos');
         $Contenido['section'] = 'Productos';
         //$QueryCategoria->select('producto.idProducto','producto.nombre as nombreProd','producto.descripcion','producto.categoria','categoria.nombre as nombreCate');
         //$QueryCategoria->leftJoin("categoria","categoria.idCategoria","=","producto.categoria");
@@ -212,6 +217,62 @@ class Direccionador extends Controller
                 ->with('Contenido',$Contenido)
                 ->with('Categorias',$DataCategorias);
                 // ->with('Productos',$DataProductos)                
+    }
+
+
+    function enviarMail(Request $request){
+        
+        $io = $request->all(); 
+
+         // dd($io);
+               
+        if(isset($io['g-recaptcha-response']) && $this->validarCaptcha($io['g-recaptcha-response'])){
+            $io['subject'] = "Servicio al cliente";
+
+            $info = Configuraciones::where('cClave','CorreoMail')->get()->toArray();
+            // dd($info[0]['cValor']);
+            \Mail::to($info[0]['cValor'])->send(new TemplateContacto($io));        
+            $mensaje = '<div id="success-alert"><div class="alert alert-success">Tu mensaje ha sido enviado con exito.</div></div>';
+            \Session::flash('mensaje',$mensaje);
+        }
+        else{
+
+            $mensaje = '<div id="success-alert"><div class="alert alert-success">Por favor selecciona el captcha.</div></div>';
+            \Session::flash('mensaje',$mensaje);   
+        }
+        return redirect('contacto');        
+    }
+
+    function validarCaptcha($captcha){
+
+        
+        if ($captcha == '') {
+            return false;
+        }
+        else {
+            $obj = new \stdClass();
+            $obj->secret = env('KEYCAPTCHA_SECRET');
+            $obj->response = $captcha;
+            $obj->remoteip = $_SERVER['REMOTE_ADDR'];
+            $url = 'https://www.google.com/recaptcha/api/siteverify';
+
+            $options = [
+                    'http'  => [
+                                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                                'method'  => 'POST',
+                                'content' => http_build_query($obj)
+                    ]
+                ];
+            
+
+
+            $context = stream_context_create($options);
+            $result  = file_get_contents($url, false, $context);
+            
+            $validar = json_decode($result);
+            
+            return ($validar->success) ? true : false;
+        }
     }
 
 }

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{asset('assets/css/bootstrap.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/fonts.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+    <!-- <link rel="stylesheet" href="{{asset('css/marpe/style_marpe.css')}}"> -->
     <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
   
     @yield('css')
@@ -96,13 +97,13 @@
                   </ul>
                   <!-- RD Navbar Nav-->
                   <ul class="rd-navbar-nav">
-                    <li class="rd-nav-item active"><a class="rd-nav-link" href="{{url('/')}}">Inicio</a>
+                    <li class="rd-nav-item {{ (\Session::has('menu') && \Session::get('menu') == 'home') ? 'active' : '' }}"><a class="rd-nav-link" href="{{url('/')}}">Inicio</a>
                     </li>
-                    <li class="rd-nav-item"><a class="rd-nav-link" href="{{url('nosotros')}}">Nosotros</a>
+                    <li class="rd-nav-item {{ (\Session::has('menu') && \Session::get('menu') == 'nosotros') ? 'active' : '' }}"><a class="rd-nav-link" href="{{url('nosotros')}}">Nosotros</a>
                     </li>
-                    <li class="rd-nav-item"><a class="rd-nav-link" href="{{url('catalogo_mar')}}">Productos</a>
+                    <li class="rd-nav-item {{ (\Session::has('menu') && \Session::get('menu') == 'productos') ? 'active' : '' }}"><a class="rd-nav-link" href="{{url('catalogo_mar')}}">Productos</a>
                     </li>
-                    <li class="rd-nav-item"><a class="rd-nav-link" href="{{url('contacto')}}">Contacto</a>
+                    <li class="rd-nav-item {{ (\Session::has('menu') && \Session::get('menu') == 'contacto') ? 'active' : ''}}"><a class="rd-nav-link" href="{{url('contacto')}}">Contacto</a>
                     </li>
                   </ul>
                 </div>
@@ -194,7 +195,8 @@
     <div class="snackbars" id="form-output-global"></div>
     <!-- Javascript-->
     <script src="{{asset('assets/js/core.min.js')}}"></script>
-    <script src="{{asset('assets/js/script.js')}}"></script>
+    <script src="{{asset('assets/js/plug.js')}}"></script>
+    <!-- <script src="{{asset('assets/js/script.js')}}"></script> -->    
     @yield('script')
   </body>
 </html>

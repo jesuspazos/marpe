@@ -23,7 +23,7 @@
                 <form action="{{url('GuardarInformacion')}}" method="POST">
                     <input type="hidden" name="menu_seccion" value="Inicio">
                     {{ csrf_field() }}
-                    <div class="row">
+                    <div class="row section_area">
                       <div class="col-md-12">
                         <h3>Información Portada</h3>
                         <br>
@@ -55,7 +55,7 @@
                       </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row section_area">
                       <div class="col-md-12 heading-section ftco-animate py-md-4">
                         <h2 class="mb-4" id="tituloIni">Vista Previa</h2>
                         <p id="contenidoSub">Te mostramos una vista previa del contenido de la vista principal</p>                                        
@@ -99,7 +99,7 @@
                     <input type="hidden" name="menu_seccion" value="Nosotros">
                     {{ csrf_field() }}
                     
-                    <div class="row">
+                    <div class="row section_area">
                       <div class="col-md-6">
                         <div class="form-group">
                           <input type="file" name="imagenMuestra" accept="image/*" id="imagenMuestra">
@@ -133,7 +133,7 @@
                     <hr>
                     <br>
 
-                    <div class="row">
+                    <div class="row section_area">
                       <div class="col-md-12">
                         <h4>Nuestras Fuerzas</h4>
                       </div>                      
@@ -141,7 +141,7 @@
                     
                     <br>
                     
-                    <div class="row">                        
+                    <div class="row section_area">                        
                         <div class="col-md-4 col-xs-12">
                           <div class="form-group">
                               <label for="tituloMision">Contenido Abierto 1</label>
@@ -165,7 +165,7 @@
                         </div>
                     </div>
 
-                    <div class="row">          
+                    <div class="mt-3 row">          
                       <div class="col-md-6">
                         <div class="form-group">
                           <input type="submit" name="btnSubmit" class="btn btn-info pull-left" value="Guardar" />

@@ -12,6 +12,9 @@ myAwesomeDropzone = {
     dictFileTooBig: "El archivo es muy grande ({{filesize}} Mb). Tamaño Permitido: {{maxFilesize}} Mb.",
     acceptedFiles: ".jpeg,.jpg,.png,.gif",
     autoDiscover: false,
+    headers: {
+                'X-CSRF-TOKEN': $('input[name="csrfToken"]').attr('value')
+    },
     accept:function(file, done) {
         
         alertify.set('notifier','position', 'top-center');        

@@ -398,7 +398,7 @@ section {
 }
 
 .main-content {
-    padding-top: 116px;
+    padding-top: 20px;
     min-height: 100vh;
 }
 
@@ -15047,4 +15047,10 @@ input[type=radio] {
 
 .clock{
   margin-top:5px;
+}
+
+.section_area{
+    border: 2px solid gray;
+    padding: 10px;
+    border-radius: 10px;
 }

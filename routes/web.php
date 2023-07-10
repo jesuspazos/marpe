@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Controllers\ProfileController;
@@ -23,20 +24,50 @@ Route::get('nosotros/{section?}', 'Direccionador@nosotros');
 Route::get('contacto', 'Direccionador@contacto');
 Route::get('registro', 'Direccionador@registro');
 
+Route::post('/sendMail','Direccionador@enviarMail');
+
 Route::get('/tree', function () {
     return view('cuerpo.test');
 });
 
 
-//---------Rutas Panel control-----------------
-Route::get('menuinicio', 'ControladorHome@menu_inicio');
-Route::post('GuardarInformacion', 'ControladorHome@guardarInformacion');
-Route::post('guardarContacto','ControladorHome@GuardaInformacionContacto');
-Route::get('categoria','ControladorHome@Categoria');
-Route::get('Archivos', 'ControladorHome@Archivos');
-Route::post('GuardarArchivo', 'ControladorHome@SaveArchivo');
-Route::get('altaProducto','ControladorHome@VistaProductos');
-Route::post('productoSave','ControladorHome@productoSave');
+//---------Rutas Vista Panel control-----------------
+Route::get('menuinicio', 'ControlPanel@menu_inicio');
+Route::get('categoria','ControlPanel@Categoria');
+Route::get('Archivos', 'ControlPanel@Archivos');
+
+
+
+//--------------Back--------
+Route::post('GuardarInformacion', 'ControlPanel@guardarInformacion');
+Route::post('guardarContacto','ControlPanel@GuardaInformacionContacto');
+Route::get('altaProducto','ControlPanel@VistaProductos');
+Route::post('GuardarArchivo', 'ControlPanel@SaveArchivo');
+Route::post('productoSave','ControlPanel@productoSave');
+
+
+//----------Consulta--------
+Route::post('portada','ControlPanel@InformacionPortada');
+Route::get('CategoriaCombo','ControlPanel@GetCategoriaCombo');
+Route::post('display','ControlPanel@GetCategorias');
+Route::post('displaysub','ControlPanel@GetSubCategorias');
+
+
+Route::post('GuardarInicio','ControlPanel@GuardarSettings');
+Route::get('SubcategoriaCombo/{id}','ControlPanel@GetSubcategoriaCombo');
+Route::post('getitems','ControlPanel@GetItemsProductos');
+Route::post('setImg','ControlPanel@procesaImagen');
+Route::post('getbrand','ControlPanel@GetItemsMarca');
+Route::post('getfiles','ControlPanel@GetItemsFiles');
+Route::post('GuardarCategoria','ControlPanel@GuardarCategoria');
+Route::post('GuardarSubategoria','ControlPanel@GuardarSubcategoria');
+Route::post('VerifyCat','ControlPanel@ComprobarCategoria');
+Route::post('DeleteCate','ControlPanel@EliminarCategoria');
+Route::post('VerifySubCat','ControlPanel@ComprobarSubCategoria');
+Route::post('DeleteSubCate','ControlPanel@EliminarSubCategoria');
+Route::post('DeleteProd','ControlPanel@EliminarProducto');
+Route::post('DeleteFile','ControlPanel@EliminarArchivo');
+
 
 
 

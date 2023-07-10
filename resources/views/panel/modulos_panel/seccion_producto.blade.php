@@ -10,6 +10,7 @@
                     <div class="col-md-12">
                       <h3>Productos</h3><br>
                         <form id='dZUpload' class='dropzone borde-dropzone' style='cursor: pointer;'>
+                          {{ csrf_field() }}
                         <div class="form-group">
                           <div class="row mbr-justify-content-center">
                             <div class="col-lg-3 mbr-col-md-3">

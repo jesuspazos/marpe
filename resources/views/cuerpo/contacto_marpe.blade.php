@@ -1,111 +1,59 @@
-@extends('base.base_marpemx')
+@extends('base.base')
 
 
 @section('content')
 
 
-<section class="ftco-section bg-light">
-    	<div class="container">
-    		<div class="row justify-content-center">
-					<div class="col-md-12">
-						<div class="wrapper">												
-							<div class="row no-gutters">
-								<div class="col-md-7 d-flex">	
-									<div class="contact-wrap w-100 p-md-5 p-4">
+	<section class="section section-sm section-last bg-default text-left">
+        <div class="container">
+			<article class="title-classic">
+				<div class="title-classic-title">
+				  <h3>Contactanos</h3>
+				</div>
+				<!-- <div class="title-classic-text">
+				  <p>If you have any questions, just fill in the contact form, and we will answer you shortly.</p>
+				</div> -->				
+			</article>
 
-									
-										<h3 class="mb-4">Contactame</h3>
-										@if(isset($Contenido['mensaje']))
-											{!!$Contenido['mensaje']!!}
-										@endif
+			<article class="title-classic">
+				@if(isset($Contenido['mensaje']))				
+					{!!$Contenido['mensaje']!!}
+				@endif			
+				
+				{!! \Session::get('mensaje') !!}				
+			</article>
 
-										{!!\Session::get('mensaje')!!}
+			<form action="{{url('sendMail')}}" method="POST" class="rd-form rd-form-variant-2 rd-mailform" data-form-output="form-output-global" data-form-type="contact">
+				{{ csrf_field() }}
+				<div class="row row-14 gutters-14">
+				  	<div class="col-md-4">
+				    	<div class="form-wrap">
+				      		<input class="form-input" id="name_contacto" type="text" name="name_contacto" placeholder="Nombre">
+				      		<!-- <label class="form-label" for="name_contacto">Nombre</label> -->
+				    	</div>
+				  	</div>
+				  	<div class="col-md-4">
+				    	<div class="form-wrap">
+				      		<input class="form-input" id="email_contacto" type="text" name="email_contacto" placeholder="Correo">
+				      		<!-- <label class="form-label" for="email_contacto">Correo</label> -->
+				    	</div>
+				  	</div>				 
+				  	<div class="col-12">
+				    	<div class="form-wrap">
+				      		<!-- <label class="form-label" for="mensaje_contacto">Mensaje</label> -->
+				      		<textarea class="form-input textarea-lg" id="mensaje_contacto" name="mensaje_contacto" required placeholder="Mensaje"></textarea>
+				    	</div>
+				  	</div>
 
-										<form action="{{url('sendMail')}}" method="POST" id="contactForm" class="contactForm">
-											{{ csrf_field() }}
-											<div class="row">												
-												<div class="col-md-6">
-													<div class="form-group">
-														<input type="text" class="form-control" name="name_contacto" id="name_contacto" required placeholder="Nombre">
-													</div>
-												</div>
-												<div class="col-md-6"> 
-													<div class="form-group">
-														<input type="email" class="form-control" name="email_contacto" id="email_contacto" required placeholder="Correo">
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<input type="text" class="form-control" name="asunto_contacto" id="asunto_contacto" required placeholder="Asunto">
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<textarea name="mensaje_contacto" class="form-control" id="mensaje_contacto" required cols="30" rows="7" placeholder="Mensaje"></textarea>
-													</div>
-												</div>
-
-												<div class="col-md-12">
-													<div class="form-group">
-														<div class="g-recaptcha" data-sitekey=""></div>
-													</div>
-												</div>
-												
-												<div class="col-md-12">
-													<div class="form-group">
-														<input type="submit" value="Enviar Mensaje" class="btn btn-primary">
-														<div class="submitting"></div>
-													</div>
-												</div>
-											</div>
-										</form>
-									</div>
-								</div>
-								<div class="col-md-5 d-flex align-items-stretch">
-									<div class="info-wrap bg-primary w-100 p-lg-5 p-4">
-										<h3 class="mb-4 mt-md-4">Conocenos</h3>
-					        	<div class="dbox w-100 d-flex align-items-start">
-					        		<div class="icon d-flex align-items-center justify-content-center">
-					        			<span class="fa fa-map-marker"></span>
-					        		</div>
-					        		<div class="text pl-3">
-						            <p><span>Dirección:</span> {{isset($Contenido['DireccionInfo']) ? $Contenido['DireccionInfo'] : '' }}</p>
-						          </div>
-					          </div>
-					        	<div class="dbox w-100 d-flex align-items-center">
-					        		<div class="icon d-flex align-items-center justify-content-center">
-					        			<span class="fa fa-phone"></span>
-					        		</div>
-					        		<div class="text pl-3">
-						            <p><span>Telefono:</span> <a href="tel://1234567920">{{isset($Contenido['TelefonoInfo']) ? $Contenido['TelefonoInfo'] : '' }}</a></p>
-						          </div>
-					          </div>
-					        	<div class="dbox w-100 d-flex align-items-center">
-					        		<div class="icon d-flex align-items-center justify-content-center">
-					        			<span class="fa fa-paper-plane"></span>
-					        		</div>
-					        		<div class="text pl-3">
-						            <p><span>Correo:</span> <a href="mailto:info@yoursite.com">{{isset($Contenido['CorreoInfo']) ? $Contenido['CorreoInfo'] : '' }}</a></p>
-						          </div>
-					          </div>
-					        	<div class="dbox w-100 d-flex align-items-center">
-					        		<div class="icon d-flex align-items-center justify-content-center">
-					        			<span class="fa fa-globe"></span>
-					        		</div>
-					        		<div class="text pl-3">
-						            <p><span>Sitio Web</span> 
-						            	
-						           		<b>{{isset($Contenido['WebInfo']) ? $Contenido['WebInfo'] : '' }}</b>
-						            </p>
-						          </div>
-					          </div>
-				          </div>
-								</div>
-							</div>
+				  	<div class="col-md-12">
+						<div class="form-group">
+							<div class="g-recaptcha" data-sitekey="{{env('KEYCAPTCHA_PUBLIC')}}"></div>
 						</div>
 					</div>
 				</div>
-    	</div>
+				<button class="button button-primary button-pipaluk" type="submit">Enviar</button>
+			</form>
+        </div>
     </section>
 
 @endsection
