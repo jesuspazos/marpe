@@ -14796,12 +14796,24 @@ section {
 }
 
 .imagen_nosotros{
-    height:250px !important;
+    /*height:250px !important;
     width: 350px !important;
     margin:0 auto !important; 
     background-position: center !important;
-    background-size: 60% 80% !important;
+    background-size: 60% 80% !important;*/
+
+    border: 1px solid black;
+    background: url(images/nosotros/MarpeFondoNegro.png) no-repeat;
+    height: 200px; 
+    /* background-repeat: no-repeat !important; */
+    /* background-attachment: fixed; */
+     background-position: center !important; 
+    background-size: 190px 150px !important;
+    background-repeat: no-repeat;
+    /* background-position: center;
 }
+
+
 
 #titulo_img_nosotros{
   margin-left:45%;
@@ -14894,6 +14906,10 @@ section {
     border-radius: 0.5rem;
     box-shadow: 7px 7px 30px -5px rgba(0,0,0,0.1);
     margin-bottom: 2rem;
+}
+
+.wrap_card i{
+    cursor: pointer;
 }
 
 

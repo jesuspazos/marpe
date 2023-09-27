@@ -232,16 +232,42 @@ $("#tblProductos").on("click", "a#editarProd", function(event) {
     }
     var data = tblProductos.row(current_row).data();
     console.log(data);
-    //$('#sub_categoria_prod').val();
-    //$('#sub_categoria_prod').prop('disabled', 'disabled');
-    GetSubCategorias(data.folioCategoria);
-    $('#sub_categoria_prod').val(data.subcategoria);
+    var element = data.subcategoria;
+    // GetSubCategorias(data.folioCategoria);
+
+    fetch(url_global+'/SubcategoriaCombo/'+data.folioCategoria)
+    .then(response => response.json())
+    .then(data => {
+
+        if(data.length > 0){
+
+            // $('#Prodsubcategoria').empty(); 
+            $('#sub_categoria_prod').empty();   
+            var elements = '<option value="0">Seleccione</option>';//<option value="0"> Seleccione </option>';                       
+            
+            for (var x in data) {                        
+               elements += '<option value="' + data[x].idsubcategoria + '">' + data[x].cNombre + '</option>';
+            }                                                             
+            $('#Prodsubcategoria').prop('disabled', false);
+            $('#Prodsubcategoria').append(elements);
+            $('#sub_categoria_prod').prop('disabled', false);
+            $('#sub_categoria_prod').append(elements);
+            
+        }
+        else{
+            //$('#Prodsubcategoria').append(elements);
+            $('#sub_categoria_prod').prop('disabled', 'disabled');
+            $('#Prodsubcategoria').prop('disabled', 'disabled');
+        }
+        $('#sub_categoria_prod').val(element);
+    });
+    
     $('#nombre_prod').val('');    
     $('#nombre_prod').val(data.cNombreCategoria);    
     $('#categoria_prod').val('');
     $('#categoria_prod').val(data.folioCategoria);
     $('#id_prod').val('');
-    $('#id_prod').val(data.iIdCategoria);    
+    $('#id_prod').val(data.iIdCategoria);        
    // $('#editarProd').modal();     
 });
 

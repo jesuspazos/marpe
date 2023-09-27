@@ -1,3 +1,22 @@
+@section('css')
+<style type="text/css">
+.card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: transparent !important;
+    border-radius: 0.25rem;
+}
+</style>
+@endsection
+
+
 <div class="container">
   <div class="row">
     <div class="col-12">
@@ -16,18 +35,19 @@
                             <div class="col-lg-3 mbr-col-md-3">
                                 <div class="wrap_card">
                                   <label for="marca_marpe"><b>¿Marca?</b>
-                                  <div class="switch_box box_4">
-                                    <div class="input_wrapper">
-                                      <input type="checkbox" class="switch_4" name="marca_marpe" id="marca_marpe">
-                                      <svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
-                                        <path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z"/>
-                                      </svg>
-                                      <svg class="is_unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212.982 212.982">
-                                        <path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd"/>
-                                      </svg>
-                                    </div>
-                                  </div>
+                                    <div class="switch_box box_4">                                    
+                                      <div class="input_wrapper">
+                                        <input type="checkbox" class="switch_4" name="marca_marpe" id="marca_marpe">
+                                        <svg class="is_checked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.67 426.67">
+                                          <path d="M153.504 366.84c-8.657 0-17.323-3.303-23.927-9.912L9.914 237.265c-13.218-13.218-13.218-34.645 0-47.863 13.218-13.218 34.645-13.218 47.863 0l95.727 95.727 215.39-215.387c13.218-13.214 34.65-13.218 47.86 0 13.22 13.218 13.22 34.65 0 47.863L177.435 356.928c-6.61 6.605-15.27 9.91-23.932 9.91z"/>
+                                        </svg>
+                                        <svg class="is_unchecked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212.982 212.982">
+                                          <path d="M131.804 106.49l75.936-75.935c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.49 81.18 30.555 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.99 6.99-6.99 18.323 0 25.312L81.18 106.49 5.24 182.427c-6.99 6.99-6.99 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0L106.49 131.8l75.938 75.937c6.99 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.323 0-25.313l-75.936-75.936z" fill-rule="evenodd" clip-rule="evenodd"/>
+                                        </svg>
+                                      </div>
+                                    </div>                                    
                                   </label>
+                                  <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Activa si daras de alta una marca."></i>
                                 </div>
                             </div>
                           </div>
@@ -61,7 +81,7 @@
                 <div class="row">
                   <div class="col-md-12">                                    
                   <!-----------------------INICIO DE MI ---------------------->                  
-                  <div class="card mt-12 tab-card">
+                  <div class="card mt-12 tab-card" style="border: 2px solid rgba(0, 0, 0, 0.3);">
                     <div class="card-header tab-card-header">
                       <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                         <li class="nav-item">

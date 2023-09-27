@@ -712,26 +712,27 @@ class ControlPanel extends Controller
     }
 
     function VistaProductos(){
-        $form_categoria = view('panel.modulos_panel..seccion_producto');
+        $form_categoria = view('panel.modulos_panel.seccion_producto');
         return view('panel.panelcontrol')->with('vista',$form_categoria);
     }
 
 
     function productoSave(Request $request){  
 
-        //dd($request->all());
+        
         if (!\Auth::check()) {
           $jsonData['bError'] = false; 
           $jsonData['redirect'] = url('/login');
           return response()->json($jsonData);
         }    
 
-        
+        $NombreCategoriaDestino = "";
+                
         $Imagen         = $request->file('Archivo');            
         $IdCategoria    = $request->Prodcategoria;
         $NombreProducto = $request->NameProducto;
         $IdSubCategoria = ($request->Prodsubcategoria != '') ? $request->Prodsubcategoria : 0;
-
+        
         //$bSubCategoria  = ($request->Prodsubcategoria != '') ? $request->Prodsubcategoria : 0;
 
         
@@ -764,13 +765,13 @@ class ControlPanel extends Controller
                 
                 if(!$request->marca_marpe){
                     
-                    $NombreCategoria    = Categoria::find(['idCategoria' => $IdCategoria]);
+                    $NombreCategoria    = Categoria::find($IdCategoria);
                     $CategoriaNom       = $NombreCategoria->nombre;    
 
                     $NombreRutaSubCate = '';                    
                     
                     if($IdSubCategoria != 0){
-                        $NombreSubCategoria = Subcategoria::find(['idsubCategoria' => $IdSubCategoria]);
+                        $NombreSubCategoria = Subcategoria::find($IdSubCategoria);
                         $NombreRutaSubCate       = $NombreSubCategoria->cNombre.'//';                            
                     }
 
@@ -812,6 +813,9 @@ class ControlPanel extends Controller
 
                 //Buscamos el producto
                 $queryProducto = Productos::where('idProducto',$request->id)->get()->toArray();
+                
+                // return response()->json(["NombreArchivo" => $queryProducto]);
+
                 $Longi = 0;
                 
                 if(!empty($queryProducto)){                    
@@ -824,21 +828,35 @@ class ControlPanel extends Controller
                         $NombreArchivo = substr($rutaArchivo, $Longi, strlen($rutaArchivo));
                     } while (strpos($NombreArchivo,'/') !== false);
 
+                    
+                    /*
+                        Prodsubcategoria: null
+                        categoria_prod: "1"
+                        id: "55"
+                        nombre_prod: "Calzado dieléctrico - 2"
+                    */
 
-                    $NuevoDestinoCategoria    = Categoria::find(['idCategoria' => $request->categoria_prod]);
-                    $NombreCategoriaDestino   = $NuevoDestinoCategoria->nombre;
+                    
+                    $iDCategoria = ($queryProducto[0]['categoria'] != $request->categoria_prod) ? $request->categoria_prod : $queryProducto[0]['categoria'];
+                    
+                    $InfoCategoria    = Categoria::find($iDCategoria);
+                    // return response()->json(["debug" => $iDCategoria]);
+                    $NombreCategoria  = $InfoCategoria->nombre;    
 
+                    
                     $NombreRutaSubCate = '';
-                    // if($request->Prodsubcategoria != 0){
-                    //     $NombreSubCategoria = Subcategoria::find(['idsubcategoria' => $IdSubCategoria]);
-                    //     $NombreRutaSubCate  = $NombreCategoria->cNombre.'//';
-                    // }
+                    $entre = "";
+                    if($request->Prodsubcategoria != 0){
+                        $entre = " Hola";
+                        $NombreSubCategoria = Subcategoria::find($IdSubCategoria);
+                        $NombreRutaSubCate  = '/'.$NombreSubCategoria->cNombre;
+                    }
 
 
 
-                    $PathCategoria      = '/images/Catalogo/'.$NombreRutaSubCate.$NombreCategoriaDestino;
+                    $PathCategoria      = '/images/Catalogo/'.$NombreCategoria.$NombreRutaSubCate;
                     $PathNuevoDestino   = realpath('').$PathCategoria.'/'.$NombreArchivo;                                   
-                    $PathImagenCSS      = 'images/Catalogo/'.$NombreCategoriaDestino.'/'.$NombreArchivo;
+                    $PathImagenCSS      = 'images/Catalogo/'.$NombreCategoria.$NombreRutaSubCate.'/'.$NombreArchivo;
                     
                     $Parametros = [
                         "nombre"        => $request->nombre_prod,
@@ -847,9 +865,10 @@ class ControlPanel extends Controller
                         'descripcion'   => $PathImagenCSS
                     ];
                     
+                    // return response()->json(['rutaFile' => $rutaArchivo, "NuevoDestino1" => $PathNuevoDestino.$entre]);
                     
                     if($rutaArchivo != $PathNuevoDestino && \File::exists($rutaArchivo)){ //Comprobamos si existe el origen                           
-                        
+                        // return response()->json(["debug" => true]);
                         //Si no existe el directorio lo creamos
                         if(!\File::exists(public_path().$PathCategoria)) {
                             \File::makeDirectory(public_path().$PathCategoria);                                
@@ -862,7 +881,7 @@ class ControlPanel extends Controller
                         //$return['RutaAnterior'] = "Ruta Anterior ".$rutaArchivo;//basename($rutaArchivo); 
                         //$return['RutaNueva'] = "Ruta Nueva ".$PathNuevoDestino;
                     }                                       
-
+                    // return response()->json(["debug" => false]);
                     if(Productos::where('idProducto',$request->id)->update($Parametros)){
                         $return['urlImg'] = 'Registro modificado con exito';
                         $return['Exito'] = true;
@@ -910,7 +929,7 @@ class ControlPanel extends Controller
 
 
 
-        $totalRecords = Productos::Select('count (*) as total')->where('categoria', '!=', 0)->count();
+        $totalRecords = Productos::Select('count (*) as total')->where('categoria', '<>', 0)->Join("categoria","categoria.idCategoria","=","producto.categoria")->count();
 
         $QueryCategoria = Productos::query();
 

@@ -15,7 +15,7 @@
                       <div class="form-group">                        
                         <div class="custom-file-upload">
                           <label for="file-upload" class="custom-file-upload1">
-                              <i class="fa fa-cloud-upload"></i> Selecciona Archivo.
+                              <i class="fa fa-cloud-upload"></i> Subir Archivo...
                           </label>
                           <input id="file-upload" type="file" name="file-upload" />
                         </div>                       
