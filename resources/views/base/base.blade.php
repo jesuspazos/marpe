@@ -68,7 +68,8 @@
                         <div class="unit-body"><a class="link-phone" href="tel:#">{{isset($RRSS['TelefonoInfo']) ? $RRSS['TelefonoInfo'] : ''}}</a></div>
                       </div>
                     </li>
-                  </ul><a class="button button-md button-default-outline-2 button-ujarak" href="#">Get a Free Quote</a>
+                  </ul>
+                  <!-- <a class="button button-md button-default-outline-2 button-ujarak" href="#">Get a Free Quote</a> -->
                 </div>
               </div>
             </div>
@@ -151,15 +152,15 @@
               <div class="col-sm-6 col-md-5 col-lg-3 col-xl-4">
                 <div class="oh-desktop">
                   <div class="wow slideInDown" data-wow-delay="0s">
-                    <h6 class="text-spacing-100 text-uppercase">Popular news</h6>
-                    <!-- Post Minimal 2-->
+                    <h6 class="text-spacing-100 text-uppercase">Información</h6>
+                    <!-- <-- Post Minimal 2-- -->
                     <article class="post post-minimal-2">
                       <p class="post-minimal-2-title"><a href="#">Your Personal Guide to 5 Best Places to Visit on Earth</a></p>
                       <div class="post-minimal-2-time">
                         <time datetime="2019-05-04">May 04, 2019</time>
                       </div>
                     </article>
-                    <!-- Post Minimal 2-->
+                    <!-- <-- Post Minimal 2-- -->
                     <article class="post post-minimal-2">
                       <p class="post-minimal-2-title"><a href="#">Top 10 Hotels: Rating by Wonder Tour Travel Experts</a></p>
                       <div class="post-minimal-2-time">
@@ -174,13 +175,13 @@
                   <div class="wow slideInLeft" data-wow-delay="0s">
                     <h6 class="text-spacing-100 text-uppercase">Accesos</h6>
                     <ul class="row-6 list-0 list-marked list-marked-md list-marked-secondary list-custom-2">
-                      <li><a href="{{url('nosotros_mar')}}">Nosotros</a></li>
+                      <li><a href="{{url('nosotros')}}">Nosotros</a></li>
                       <!-- <li><a href="#">Our Tours</a></li> -->
                       <!-- <li><a href="#">Our Team</a></li> -->
                       <li><a href="{{url('catalogo_mar')}}">Productos</a></li>
                       <!-- <li><a href="#">Blog</a></li> -->
                     </ul>
-                    <div class="group-md group-middle justify-content-sm-start"><a class="button button-lg button-primary button-ujarak" href="#">Contacto</a></div>
+                    <div class="group-md group-middle justify-content-sm-start"><a class="button button-lg button-primary button-ujarak" href="{{url('contacto')}}">Contacto</a></div>
                   </div>
                 </div>
               </div>

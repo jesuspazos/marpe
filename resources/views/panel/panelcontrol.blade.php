@@ -11,7 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <!-- Title Page-->
-    <title>Marpe | Panel Control</title>
+    <title>Marpe | Panel Controles</title>
 
     <!-- Fontfaces CSS-->
     <link href="{{asset('/control/css/font-face.css')}}" rel="stylesheet" media="all">
@@ -279,9 +279,10 @@
                                                         <i class="zmdi zmdi-money-box"></i>Billing</a>
                                                 </div>-->
                                             </div>
-                                            <div class="account-dropdown__footer">
-                                                <a href="{{url('logout')}}">
-                                                    <i class="zmdi zmdi-power"></i>Cerrar Sesion</a>
+                                            <div class="account-dropdown__footer">                                                
+                                                <a href="{{route('logout')}}">                                                                                                    
+                                                    <i class="zmdi zmdi-power"></i>Cerrar Sesion</a>                                                    
+                                                </form> 
                                             </div>
                                         </div>
                                     </div>

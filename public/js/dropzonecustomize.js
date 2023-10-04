@@ -17,8 +17,8 @@ myAwesomeDropzone = {
     },
     accept:function(file, done) {
         
-        alertify.set('notifier','position', 'top-center');        
-        
+        alertify.set('notifier','position', 'top-center');                    
+
         if($('#Prodcategoria').val() == 0 && !$('#marca_marpe').is(':checked')){            
             alertify.error('Por favor selecciona una categoría');  
             this.removeAllFiles(true); 
@@ -47,6 +47,11 @@ myAwesomeDropzone = {
 
     success: function (file, response) {
         var imgName = response;
+
+        if(response.redirect){
+            window.location.href = response.redirect;
+        }
+
         console.log(response);
         //console.log("Successfully uploaded :" + imgName);
         file.previewElement.classList.add("dz-success");

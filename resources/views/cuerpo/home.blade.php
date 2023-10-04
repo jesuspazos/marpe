@@ -53,7 +53,7 @@
           </div> -->
         </div>
         <!-- Swiper Pagination-->
-        <div class="swiper-pagination"></div>
+        <!-- <div class="swiper-pagination"></div> -->
       </section>      
       <!-- Discover New Horizons-->
       <section class="section section-sm section-first bg-default text-md-left">

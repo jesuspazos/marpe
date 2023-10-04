@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 //---------Vista publico-----------------
 
 Route::get('/', 'Direccionador@index');
-Route::get('catalogo_mar','Direccionador@catalogo');
+Route::get('catalogo','Direccionador@catalogo');
 Route::get('nosotros/{section?}', 'Direccionador@nosotros');
 Route::get('contacto', 'Direccionador@contacto');
 Route::get('registro', 'Direccionador@registro');
@@ -73,7 +73,8 @@ Route::post('DeleteFile','ControlPanel@EliminarArchivo');
 
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    // return view('dashboard');
+    return view('panel.panelcontrol');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -83,3 +84,22 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/limpiar', function() {
+    
+    // Artisan::call('config:cache');
+    // Artisan::call('config:clear');
+    // Artisan::call('cache:clear');
+    
+    // Artisan::call('route:cache');
+    // Artisan::call('route:clear');
+    // Artisan::call('optimize'); //1
+    // Artisan::call('optimize:clear'); //2
+    // Artisan::call('view:clear');
+    
+
+
+    // php artisan optimize
+    // php artisan optimize:clear
+    return "Cache esta limpio";
+});

@@ -7,6 +7,7 @@ use App\Mail\TemplateContacto;
 use App\Configuraciones;
 use App\Productos;
 use App\Categoria;
+use App\Subcategoria;
 
 class Direccionador extends Controller
 {
@@ -150,8 +151,34 @@ class Direccionador extends Controller
                         ->where('categoria.activo',1)
                         ->get()
                         ->toArray();
+        
+        $datos = [];
+        $n=1;
+        
 
-                        
+        foreach($DataCategorias as $Index => $data){
+
+            if($data['FoliosSub'] != ""){
+                foreach(explode(",", $data['FoliosSub']) as $indexI => $valor){
+                    // $DataCategorias[$Index]['NomSubCategorias'][$indexI] = Subcategoria::where('idsubcategoria',$valor)->select('cNombre')->get()->toArray()[0]['cNombre'];
+                    $Data = Productos::where('subcategoria',$valor)->get()->toArray();
+                    if(!empty($Data)){
+                        $DataCategorias[$Index]['SubCategorias'][$indexI]['NomSub'] = Subcategoria::where('idsubcategoria',$valor)->select('cNombre')->get()->toArray()[0]['cNombre'];
+                        $DataCategorias[$Index]['SubCategorias'][$indexI]['FolioSub'] =  $valor;
+                        $DataCategorias[$Index]['SubCategorias'][$indexI]['Productos'] = $Data;// Productos::where('subcategoria',$valor)->get()->toArray();    
+                    }
+                    
+                }
+            }
+        }
+        // return response()->json(["data" => $DataCategorias, "Contador" => $n]);
+
+        foreach($DataCategorias as $Index => $data){
+            $DataCategorias[$Index]['Productos'] =  Productos::where('categoria',$data['FolioCate'])->get()->toArray();
+            $n++;
+        }
+
+        // return response()->json(["data" => $DataCategorias, "Contador" => $n]);                        
                         // ->join("subcategorias","categoria.idCategoria","=","subcategorias.idcategoria")                                                  
 
         // dd($DataCategorias);

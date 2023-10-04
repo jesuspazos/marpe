@@ -1,9 +1,70 @@
 @extends('base.base') 
 
 @section('css')
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
- <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+<!-- <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css"/> -->
+ <!-- <link rel="stylesheet" href="{{asset('assets/css/style.css')}}"> -->
+
+ <style>
+     /* Remove default bullets */
+#orange, ul {
+  list-style-type: none;
+}
+
+#filtermobile, ul{
+  list-style-type: none;
+}
+/* Remove margins and padding from the parent ul */
+#myUL {
+  margin: 0;
+  padding: 0;
+}
+
+/* Style the caret/arrow */
+.caret {
+  cursor: pointer;
+  user-select: none; /* Prevent text selection */
+}
+
+/* Create the caret/arrow with a unicode, and style it */
+.caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+.caret-down::before {
+  transform: rotate(90deg);
+}
+
+.listCat li{
+    cursor: pointer;
+}
+
+/* Hide the nested list */
+.nested {
+  display: none;
+/*  list-style-type: none;*/
+}
+
+.nested li{
+    margin-left: 25px;
+}
+
+/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+.active {
+  display: block;
+}
+
+.activeli{
+    background-color: #3a3c3e;
+    color: #ffffff;
+    opacity: 0.7;
+}
+
+ </style>
 
 @endsection
 
@@ -22,12 +83,32 @@
                   <h4 id="burgundy">Filtros</h4>
               </div>
               <div class="py-2 border-bottom ml-3">
-                  <h6 class="font-weight-bold">Categories</h6>
+                  <h6 class="font-weight-bold">Categorias</h6>
                   <div id="orange"><span class="fa fa-minus"></span></div>
-                  <form>
-                      <div class="form-group"> <input type="checkbox" id="artisan"> <label for="artisan">Fresh Artisan Breads</label> </div>
+                  <form id="filtermobile">
+                      <!-- <div class="form-group"> <input type="checkbox" id="artisan"> <label for="artisan">Fresh Artisan Breads</label> </div>
                       <div class="form-group"> <input type="checkbox" id="breakfast"> <label for="breakfast">Breakfast Breads</label> </div>
-                      <div class="form-group"> <input type="checkbox" id="healthy"> <label for="healthy">Healthy Breads</label> </div>
+                      <div class="form-group"> <input type="checkbox" id="healthy"> <label for="healthy">Healthy Breads</label> </div> -->
+                      <ul class="listCat">
+                        
+
+                        @foreach($Categorias as $Indice => $valor)
+                            @if(isset($valor['SubCategorias']) && !empty($valor['Productos']))
+                                <li class="cat" data-value="CAT|{{$valor['FolioCate']}}"><span class="caret">{{$valor['NombreCat']}}</span>
+                                    <ul class="nested">
+                                        @foreach($valor['SubCategorias'] as $IndiceName => $ValoresSub)
+                                            <li data-value="CAT|{{$valor['FolioCate']}}|SUB|{{$ValoresSub['FolioSub']}}">{{$ValoresSub['NomSub']}}</li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                                <hr>                                                          
+                            @else
+                                <li class="cat" data-value="CAT|{{$valor['FolioCate']}}">{{$valor['NombreCat']}}</li>
+                                <!-- <div class="form-group"> <input type="checkbox" id="healthy"> <label for="healthy">{{$valor['NombreCat']}}</label> </div> -->
+                                <hr>
+                            @endif                          
+                        @endforeach 
+                      </ul>
                   </form>                        
               </div>
           </div>
@@ -40,18 +121,30 @@
                     <div id="orange">
                       <span class="fa fa-minus"></span>
                     </div>                                        
-                    <ul class="left_nav"> 
-                      <!-- <div id="tree"></div>  -->
+                    <ul class="listCat" id="myUL">                      
+                        <li><a href="{{url('/catalogo')}}">Todas las categorías</a></li>
+                        <hr>
+                        @foreach($Categorias as $Indice => $valor)
+                            @if(isset($valor['SubCategorias']) && !empty($valor['Productos']))
+                                <li class="cat" data-value="CAT|{{$valor['FolioCate']}}"><span class="caret">{{$valor['NombreCat']}}</span>
+                                    <ul class="nested">
+                                        @foreach($valor['SubCategorias'] as $IndiceName => $ValoresSub)
+                                            <li class="sub" data-value="CAT|{{$valor['FolioCate']}}|SUB|{{$ValoresSub['FolioSub']}}">{{$ValoresSub['NomSub']}}</li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                                <hr>                                                          
+                            @else
+                                <li class="cat" data-value="CAT|{{$valor['FolioCate']}}">{{$valor['NombreCat']}}</li>
+                                <hr>
+                            @endif                          
+                        @endforeach   
+                    </ul>
 
-                        <!-- @foreach($Categorias as $Indice => $valor)                                                        
-                          <li class="nav-item active">                              
-                            <div class="form-group dropright">
-                                <input type="checkbox" id="artisan">
-                                <label for="artisan">{{$valor['NombreCat']}}</label>
-                            </div>
-                          </li>                              
-                        @endforeach   -->                                                             
-                    </ul>                                                    
+
+
+
+
                 </div>
               </div>
             </div>
@@ -69,74 +162,28 @@
                             </select> </div>
                     </div> -->
                 </div>
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">
-                        <div class="card"> <img class="card-img-top" src="{{asset('/images/Catalogo/Calzado Industrial/Calzadodielectrico1867585868.png')}}">
-                            <div class="card-body">
-                                <h5><b>Calzado Industrial</b> </h5>
-                                <!-- <div class="d-flex flex-row my-2">
-                                    <div class="text-muted">₹110/loaf</div>
-                                    <div class="ml-auto"> <button class="border rounded bg-white sign"><span class="fa fa-plus" id="orange"></span></button> <span class="px-sm-1">1 loaf</span> <button class="border rounded bg-white sign"><span class="fa fa-minus" id="orange"></span></button> </div>
-                                </div> <button class="btn w-100 rounded my-2">Add to cart</button> -->
+
+                <div class="row" >
+                    <h2 id="titulocatalogo"></h2>
+                </div>
+
+                <div class="row" id="itemsx">
+
+                    @foreach($Categorias as $Indice => $valor)
+                        <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">
+                            <div class="card cat" data-value="CAT|{{$valor['FolioCate']}}"> <img class="card-img-top" src="{{asset($valor['Productos'][0]['descripcion'])}}">
+                                <div class="card-body">
+                                    <h5><b>{{$valor['NombreCat']}}</b> </h5>
+                                    <!-- <div class="d-flex flex-row my-2">
+                                        <div class="text-muted">₹110/loaf</div>
+                                        <div class="ml-auto"> <button class="border rounded bg-white sign"><span class="fa fa-plus" id="orange"></span></button> <span class="px-sm-1">1 loaf</span> <button class="border rounded bg-white sign"><span class="fa fa-minus" id="orange"></span></button> </div>
+                                    </div> <button class="btn w-100 rounded my-2">Add to cart</button> -->
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">
-                        <div class="card"> <img class="card-img-top" src="{{asset('images/Catalogo/Protección auditiva/Orejeras941553185.png')}}">
-                            <div class="card-body">
-                                <h5><b>Protección auditiva</b> </h5>
-                                <!-- <div class="d-flex flex-row my-2">
-                                    <div class="text-muted">₹35/piece</div>
-                                    <div class="ml-auto"> <button class="border rounded bg-white sign"><span class="fa fa-plus" id="orange"></span></button> <span class="px-sm-1">1 pc</span> <button class="border rounded bg-white sign"><span class="fa fa-minus" id="orange"></span></button> </div>
-                                </div> <button class="btn w-100 rounded my-2">Add to cart</button> -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">
-                        <div class="card"> <img class="card-img-top" src="{{asset('/images/Catalogo/Protección para el cuerpo/Chalecos1443193982.png')}}">
-                            <div class="card-body">
-                                <h5><b>Protección para el cuerpo</b> </h5>
-                                <!-- <div class="d-flex flex-row my-2">
-                                    <div class="text-muted">₹80/loaf</div>
-                                    <div class="ml-auto"> <button class="border rounded bg-white sign"><span class="fa fa-plus" id="orange"></span></button> <span class="px-sm-1">1 loaf</span> <button class="border rounded bg-white sign"><span class="fa fa-minus" id="orange"></span></button> </div>
-                                </div> <button class="btn w-100 rounded my-2">Add to cart</button> -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">
-                        <div class="card"> <img class="card-img-top" src="{{asset('images/Catalogo/Protección visual/Lentesdeproteccion1091357457.png')}}">
-                            <div class="card-body">
-                                <h5><b>Protección visual</b> </h5>
-                                <!-- <div class="d-flex flex-row my-2">
-                                    <div class="text-muted">₹160/piece</div>
-                                    <div class="ml-auto"> <button class="border rounded bg-white sign"><span class="fa fa-plus" id="orange"></span></button> <span class="px-sm-1">1 pc</span> <button class="border rounded bg-white sign"><span class="fa fa-minus" id="orange"></span></button> </div>
-                                </div> <button class="btn w-100 rounded my-2">Add to cart</button> -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">
-                        <div class="card"> <img class="card-img-top" src="{{asset('images/Catalogo/Protección respiratoria/Cubrebocas1452797759.png')}}">
-                            <div class="card-body">
-                                <h5><b>Protección respiratoria</b> </h5>
-                                <!-- <div class="d-flex flex-row my-2">
-                                    <div class="text-muted">₹85/piece</div>
-                                    <div class="ml-auto"> <button class="border rounded bg-white sign"><span class="fa fa-plus" id="orange"></span></button> <span class="px-sm-1">1 pc</span> <button class="border rounded bg-white sign"><span class="fa fa-minus" id="orange"></span></button> </div>
-                                </div> <button class="btn w-100 rounded my-2">Add to cart</button> -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">
-                        <div class="card d-relative"> <img class="card-img-top" src="{{asset('images/Catalogo/Protección manual/Guantesconrecubrimiento393317952.png')}}">
-                            <div class="card-body">
-                                <h5><b>Protección manual</b> </h5>
-                                <!-- <div class="rounded bg-white discount" id="orange">10% off</div>
-                                <div class="d-flex flex-row my-2">
-                                    <div class="text-muted price"><del>₹55</del>₹45/piece</div>
-                                    <div class="ml-auto"> <button class="border rounded bg-white sign"><span class="fa fa-plus" id="orange"></span></button> <span>1pc</span> <button class="border rounded bg-white sign"><span class="fa fa-minus" id="orange"></span></button> </div>
-                                </div> <button class="btn w-100 rounded my-2">Add to cart</button> -->
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
+
+                    
                 </div>
               </div>
             </div>
@@ -156,35 +203,74 @@
     <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
     <script>
         
-        $(document).ready(function(){
-          $('#tree').tree({
-            uiLibrary: 'bootstrap4',
-            dataSource: getTree(), 
-            imageUrlField: 'flagUrl'                   
-          });          
-        });
 
-        function getTree() {          
-          var tree = [{ 
-                      text: 'Planta 1', 
-                      children: [ 
-                          { 
-                            text: 'Área 1', 
-                              children: [
-                                { 
-                                  text: 'Equipo 1',
-                                    children: [
-                                      { text: 'Punto 1' },
-                                      { text: 'Punto 2' },
-                                      { text: 'Punto 3' }
-                                  ]
-                                }
-                              ] 
-                          } 
-                        ] 
-                    }];
-          
-          return tree;
-        }                  
+        var allItems  = {!! json_encode($Categorias) !!} ;        
+        var toggler = document.getElementsByClassName("caret");
+        var bLo = false;
+        
+
+        for (var i = 0; i < toggler.length; i++) {
+          toggler[i].addEventListener("click", function() {
+            this.parentElement.querySelector(".nested").classList.toggle("active");
+            this.classList.toggle("caret-down");
+          });
+        }   
+
+
+         $(".cat").on('click',  function () {
+            
+            var Element = "";        
+
+            if(!bLo){
+                var xcat = $(this).attr('data-value').split('|');
+                var position = allItems.find(x => x.FolioCate == xcat[1]);                                                    
+                
+                $('#titulocatalogo').html(position.NombreCat);
+                position.Productos.forEach( function(valor, indice, array) {                    
+                    Element +=  '<div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">';
+                    Element += '<div class="card"> <img class="card-img-top" src="{!! asset("'+valor.descripcion+'") !!} ">';
+                    Element += '<div class="card-body">';
+                    Element += '<h5><b>'+valor.nombre+'</b> </h5></div></div></div>';
+                });
+
+                $('#itemsx').empty();
+                $('#itemsx').append(Element);
+            }
+            bLo = false;
+
+         });
+
+         $(".sub").on('click', function (event) {
+            
+            // console.log($(this).attr('data-value'));
+            
+            var xcat = $(this).attr('data-value').split('|');
+
+            if(xcat.length >= 4){
+                var position = allItems.find(x => x.FolioCate == xcat[1]);                
+                var positioSub = position.SubCategorias.find(x=>x.FolioSub == xcat[3]);             
+            }
+            
+            // if(allItems.SubCategorias){
+            //     var position = allItems.SubCategorias.find(x => x.FolioCate == xcat[1]);    
+            //     console.log(position);
+            // }
+            $('#titulocatalogo').html(positioSub.NomSub);
+            var Element = ""; 
+            positioSub.Productos.forEach( function(valor, indice, array) {                
+
+                Element +=  '<div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1">';
+                Element += '<div class="card"> <img class="card-img-top" src="{!! asset("'+valor.descripcion+'") !!} ">';
+                Element += '<div class="card-body">';
+                Element += '<h5><b>'+valor.nombre+'</b> </h5></div></div></div>';                
+            });
+
+            bLo = true;
+
+            $('#itemsx').empty();
+            $('#itemsx').append(Element); 
+
+         });
+                            
     </script>
   @endsection
